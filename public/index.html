@@ -3,40 +3,46 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Chatroom-v2</title>
-	
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body ng-app='chatroom'>
-	<div class="logIn container" ng-controller='logInCtrl as logInCtrl' ng-show='!loggedIn'>
-		<form class="form-inline" ng-submit='submit($event)'>
-  			<div class="form-group">
-    			<label for="signInform">Name</label>
-    			<input type="text" ng-model='name' class="form-control" id="signInform" placeholder="Jane Doe">
-  			</div>
-  			<button type="submit" class="btn btn-warning">Submit!</button>
-		</form>
-	</div>
 
-	<div class='chatbox'>
-		<div class="chatUI container chatbox__user-list" ng-controller='chatUICtrl as chatUICtrl'>
-			<h1>User list</h1>
-			<p ng-repeat='user in users'>{{user}}</p>
-		</div>
+  <div class="logIn login" ng-controller='logInCtrl as logInCtrl' ng-show='!loggedIn'>
+    <form class="form-inline" ng-submit='submit($event)'>
+      <div class="input-group input-group-lg">
+        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        <input type="text" ng-model='name' class="form-control" id="signInform" placeholder="Enter your username">
+      </div>
+    </form>
+  </div>
 
-		<div class="chat container chatbox__messages" ng-controller='chatCtrl as chatCtrl'>
-      		<div class="chatbox__messages__user-message">
-        		<div class="chatbox__messages__user-message--ind-message" ng-repeat='message in messages'>
-          			<p class="name">{{message.user}}</p>
-          			<br/>
-          			<p class="message">{{message.text}}</p>
-        		</div>
-      		</div>
-    	</div>
-    	<form ng-submit='sendMsg($event)'>
-      		<input type="text" ng-model='message' placeholder="Enter your message">
-          <button type="submit" class="btn btn-warning">Submit!</button>
-    	</form>
-  	</div>
-</div>
+  <div class="container">
+    <h1>Hello World!</h1>
+    <div class="chatbox">
+
+        <div class="chatbox__user-list" ng-controller='chatUICtrl as chatUICtrl'>
+          <h1>User list</h1>
+          <div class='chatbox__user--active' ng-repeat='user in users'>
+            <p>{{user}}</p>
+          </div>
+        </div>
+
+        <div class="chatbox__messages" ng-controller='chatCtrl as chatCtrl'>
+          <div class="chatbox__messages__user-message">
+            <div class="chatbox__messages__user-message--ind-message" ng-repeat='message in messages'>
+              <p class="name">{{message.user}}</p>
+              <br/>
+              <p class="message">{{message.text}}</p>
+            </div>
+          </div>
+        </div>
+
+        <form ng-submit='sendMsg($event)'>
+          <input type="text" ng-model='message' placeholder="Enter your message">
+        </form>
+
+    </div>
+  </div>
 
 
 <!--jQuery-->

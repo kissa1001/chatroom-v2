@@ -6,11 +6,51 @@
 }
 
 html, body {
-  background: -webkit-linear-gradient(330deg, #17bebb, #f0a6ca);
-  background: linear-gradient(120deg, #17bebb, #f0a6ca);
+  background: -webkit-linear-gradient(270deg, #2EC4B6, #9EB1E9);
+  background: linear-gradient(180deg, #2EC4B6, #9EB1E9);
   overflow: hidden;
 }
 
+.login {
+  padding: 15px;
+  width: 400px;
+  min-height: 400px;
+  margin: 20% auto 0 auto;
+}
+.login form .input-group {
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.login form .input-group:last-of-type {
+  border-top: none;
+}
+.login form .input-group span {
+  background: transparent;
+  min-width: 53px;
+  border: none;
+}
+.login form .input-group span i {
+  font-size: 1.5em;
+  color: rgba(255, 255, 255, 0.8);
+}
+.login form input.form-control {
+  display: block;
+  width: auto;
+  height: auto;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: none;
+  border-radius: 0px;
+  padding: 10px;
+  font-size: 1.6em;
+  width: 100%;
+  background: transparent;
+  color: #fff;
+}
+.login form input.form-control:focus {
+  border: none;
+}
 .container {
   display: -webkit-box;
   display: -webkit-flex;
@@ -93,7 +133,7 @@ html, body {
   font-size: 0.7em;
   margin: 0 2.8em;
 }
-.chatbox-user-list {
+.chatbox__user-list {
   background: rgba(255, 255, 255, 0.1);
   width: 25%;
   height: 100%;
@@ -104,7 +144,7 @@ html, body {
 .chatbox__user-list h1 {
   background: rgba(255, 255, 255, 0.05);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9em;
+  font-size: 1.5em;
   padding: 1em;
   margin: 0;
   font-weight: 300;
@@ -115,6 +155,7 @@ html, body {
   height: 0.5em;
   border-radius: 100%;
   margin: 1em 0.7em;
+  cursor:pointer;
 }
 .chatbox__user--active {
   background: rgba(23, 190, 187, 0.8);
@@ -129,7 +170,7 @@ html, body {
   float: left;
   text-align: left;
   margin: -0.25em 2em;
-  font-size: 0.7em;
+  font-size:1.2em;
   font-weight: 300;
   color: #FFF;
   width: 200px;
