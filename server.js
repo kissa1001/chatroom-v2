@@ -16,15 +16,22 @@ io.on('connection', function (socket) {
     	socket.name = data.name;
     	console.log(data.name + ' connected');
     	socket.emit('userNames', userNames);
+    	socket.broadcast.emit('userNames', userNames);
     })
-});
-io.on('disconnect', function(socket){
-	console.log('Disconnected');
-	_.without(userNames, function(userName){
-		if(userName === socket.name){
-			return true;
-		}
-	})
-});
 
+    socket.on('send:message', function (data) {
+    	socket.broadcast.emit('send:message', {
+      		user: name,
+      		text: data.message
+    	});
+    	console.log(socket.name + ' said '+ data.message);
+  	});
+
+  	socket.on('disconnect', function(){
+		console.log(socket.name + ' Disconnected');
+		userNames = _.without(userNames, socket.name);
+		socket.emit('userNames', userNames);
+    	socket.broadcast.emit('userNames', userNames);
+	});
+});
 server.listen(8080);

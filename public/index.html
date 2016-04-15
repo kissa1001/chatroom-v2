@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Chatroom-v2</title>
-	<link rel="stylesheet" href="css/style.css">
+	
 </head>
 <body ng-app='chatroom'>
 	<div class="logIn container" ng-controller='logInCtrl as logInCtrl' ng-show='!loggedIn'>
@@ -31,8 +31,9 @@
         		</div>
       		</div>
     	</div>
-    	<form>
-      		<input type="text" placeholder="Enter your message">
+    	<form ng-submit='sendMsg($event)'>
+      		<input type="text" ng-model='message' placeholder="Enter your message">
+          <button type="submit" class="btn btn-warning">Submit!</button>
     	</form>
   	</div>
 </div>
