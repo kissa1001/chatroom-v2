@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chatroom-v2</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app='chatroom'>
+	<div class="logIn container" ng-controller='logInCtrl as logInCtrl' ng-show='!loggedIn'>
+		<form class="form-inline" ng-submit='submit($event)'>
+  			<div class="form-group">
+    			<label for="signInform">Name</label>
+    			<input type="text" ng-model='name' class="form-control" id="signInform" placeholder="Jane Doe">
+  			</div>
+  			<button type="submit" class="btn btn-warning">Submit!</button>
+		</form>
+	</div>
+
+	<div class='chatbox'>
+		<div class="chatUI container chatbox__user-list" ng-controller='chatUICtrl as chatUICtrl'>
+			<h1>User list</h1>
+			<p ng-repeat='user in users'>{{user}}</p>
+		</div>
+
+		<div class="chat container chatbox__messages" ng-controller='chatCtrl as chatCtrl'>
+      		<div class="chatbox__messages__user-message">
+        		<div class="chatbox__messages__user-message--ind-message" ng-repeat='message in messages'>
+          			<p class="name">{{message.user}}</p>
+          			<br/>
+          			<p class="message">{{message.text}}</p>
+        		</div>
+      		</div>
+    	</div>
+    	<form>
+      		<input type="text" placeholder="Enter your message">
+    	</form>
+  	</div>
+</div>
+
+
+<!--jQuery-->
+<script src="app/bower_components/jquery/dist/jquery.min.js"></script>
+<!--Bootstrap-->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!--angular,angular-route,angular-socket-io-->
+<script src="app/bower_components/angular/angular.js"></script>
+<script src="app/bower_components/angular-route/angular-route.js"></script>
+<script src="app/bower_components/angular-socket-io/socket.js"></script>
+<!--socket.io-->
+<script src="/socket.io/socket.io.js"></script>
+<!--javascript files-->
+<script src="js/app.js"></script>
+</body>
+</html>
