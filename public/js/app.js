@@ -12,6 +12,7 @@ angular.module('chatroom')
   $scope.submit = function(event){
     event.preventDefault();
     socket.emit('init',{userName:$scope.userName});
+    $rootScope.userName = $scope.userName;
   }
 	socket.on('init', function (data) {
     $scope.userName = data.userName;
@@ -20,7 +21,7 @@ angular.module('chatroom')
     $rootScope.users = data;
     $scope.loggedIn = true;
   })
-  $rootScope.userName = $scope.userName;
+
 }]);
 
 angular.module('chatroom')
@@ -37,12 +38,10 @@ angular.module('chatroom')
     socket.emit('send:message', {
       message: $scope.message
     });
-    console.log($rootScope.users);
     $scope.messages.push({
         user: $rootScope.userName, 
         msg: $scope.message
     });
-    console.log($scope.messages);
     $scope.message = '';
   }
 	socket.on('send:message', function (message) {

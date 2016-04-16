@@ -8,7 +8,7 @@
 html, body {
   background: -webkit-linear-gradient(270deg, #2EC4B6, #9EB1E9);
   background: linear-gradient(180deg, #2EC4B6, #9EB1E9);
-  overflow: hidden;
+  font-family: 'Nunito', sans-serif;
 }
 
 .login {
@@ -86,31 +86,14 @@ html, body {
   position: relative;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
 }
-.chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message {
-  float: right;
-}
-.chatbox__messages:nth-of-type(odd) .chatbox__messages__user-message--ind-message:after {
-  content: '';
-  position: absolute;
-  margin: -1.5em -17.06em;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid rgba(255, 255, 255, 0.2);
-}
-.chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message {
+.chatbox__messages__user-message:nth-of-type(odd) .chatbox__messages__user-message--ind-message {
   float: left;
 }
-.chatbox__messages:nth-of-type(even) .chatbox__messages__user-message--ind-message:after {
-  content: '';
-  position: absolute;
-  margin: -1.5em 1.87em;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid rgba(255, 255, 255, 0.2);
+.chatbox__messages__user-message:nth-of-type(even) .chatbox__messages__user-message--ind-message {
+  float: right;
+}
+.chatbox__messages{
+  overflow: auto;
 }
 .chatbox__messages__user-message {
   width: 450px;
@@ -121,16 +104,16 @@ html, body {
   height: auto;
   width: 65%;
   border-radius: 5px;
-  margin: 2em 1em;
+  margin: 0.7em 1em;
   overflow: auto;
 }
 .chatbox__messages__user-message--ind-message > p.name {
   color: #FFF;
-  font-size: 1em;
+  font-size: 1.2em;
 }
-.chatbox__messages__user-message--ind-message > p.message {
+.chatbox__messages__user-message--ind-message > span.message {
   color: #FFF;
-  font-size: 0.7em;
+  font-size: 1em;
   margin: 0 2.8em;
 }
 .chatbox__user-list {
@@ -159,12 +142,6 @@ html, body {
 }
 .chatbox__user--active {
   background: rgba(62, 173, 43, 0.8);
-}
-.chatbox__user--busy {
-  background: rgba(252, 100, 113, 0.8);
-}
-.chatbox__user--away {
-  background: rgba(255, 253, 130, 0.8);
 }
 .chatbox p {
   float: left;
