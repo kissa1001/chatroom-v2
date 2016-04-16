@@ -158,7 +158,7 @@ html, body {
   cursor:pointer;
 }
 .chatbox__user--active {
-  background: rgba(23, 190, 187, 0.8);
+  background: rgba(62, 173, 43, 0.8);
 }
 .chatbox__user--busy {
   background: rgba(252, 100, 113, 0.8);

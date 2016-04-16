@@ -11,7 +11,7 @@
     <form class="form-inline" ng-submit='submit($event)'>
       <div class="input-group input-group-lg">
         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-        <input type="text" ng-model='name' class="form-control" id="signInform" placeholder="Enter your username">
+        <input type="text" ng-model='userName' class="form-control" id="signInform" placeholder="Enter your username">
       </div>
     </form>
   </div>
@@ -27,12 +27,12 @@
           </div>
         </div>
 
-        <div class="chatbox__messages" ng-controller='chatCtrl as chatCtrl'>
+      <div class="chatBlock" ng-controller='chatCtrl as chatCtrl'>
+        <div class="chatbox__messages">
           <div class="chatbox__messages__user-message">
             <div class="chatbox__messages__user-message--ind-message" ng-repeat='message in messages'>
-              <p class="name">{{message.user}}</p>
-              <br/>
-              <p class="message">{{message.text}}</p>
+              <p class="name">{{message.user}}: </p>
+              <p class="message">{{message.msg}}</p>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
         <form ng-submit='sendMsg($event)'>
           <input type="text" ng-model='message' placeholder="Enter your message">
         </form>
-
+      </div>
     </div>
   </div>
 

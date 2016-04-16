@@ -12,25 +12,25 @@ var userNames=[];
 io.on('connection', function (socket) {
     console.log('Connection detected');
     socket.on('init', function(data){
-    	userNames.push(data.name);
-    	socket.name = data.name;
-    	console.log(data.name + ' connected');
+    	userNames.push(data.userName);
+    	socket.userName = data.userName;
+    	console.log(data.userName + ' connected');
     	socket.emit('userNames', userNames);
     	socket.broadcast.emit('userNames', userNames);
     })
 
     socket.on('send:message', function (data) {
     	socket.broadcast.emit('send:message', {
-      		user: name,
-      		text: data.message
+      		user: socket.userName,
+      		msg: data.message
     	});
-    	console.log(socket.name + ' said '+ data.message);
+    	console.log(socket.userName + ' said '+ data.message);
   	});
 
   	socket.on('disconnect', function(){
-		console.log(socket.name + ' Disconnected');
-		userNames = _.without(userNames, socket.name);
-		socket.emit('userNames', userNames);
+		  console.log(socket.userName + ' disconnected');
+		  userNames = _.without(userNames, socket.userName);
+		  socket.emit('userNames', userNames);
     	socket.broadcast.emit('userNames', userNames);
 	});
 });

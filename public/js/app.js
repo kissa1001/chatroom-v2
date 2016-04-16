@@ -11,17 +11,16 @@ angular.module('chatroom')
 	//Log user in
   $scope.submit = function(event){
     event.preventDefault();
-    socket.emit('init',{name:$scope.name});
+    socket.emit('init',{userName:$scope.userName});
   }
 	socket.on('init', function (data) {
-
+    $scope.userName = data.userName;
   });
   socket.on('userNames', function(data){
     $rootScope.users = data;
-    console.log(data);
     $scope.loggedIn = true;
   })
-
+  $rootScope.userName = $scope.userName;
 }]);
 
 angular.module('chatroom')
@@ -32,35 +31,23 @@ angular.module('chatroom')
 angular.module('chatroom')
 .controller('chatCtrl', ['socket','$scope','$rootScope',function chatCtrl(socket, $scope,$rootScope){
 	//Chat here
+  $scope.messages = [];
   $scope.sendMsg = function(event){
     event.preventDefault();
-    socket.emit('send:message', $scope.message);
-    console.log('sending msg');
+    socket.emit('send:message', {
+      message: $scope.message
+    });
+    console.log($rootScope.users);
+    $scope.messages.push({
+        user: $rootScope.userName, 
+        msg: $scope.message
+    });
+    console.log($scope.messages);
+    $scope.message = '';
   }
 	socket.on('send:message', function (message) {
-    	$scope.messages.push(message);
+    $scope.messages.push(message);
   });
- 	// socket.on('user:join', function (data) {
-  //   $scope.messages.push({
-  //     user: 'chatroom',
-  //     text: 'User ' + data.name + ' has joined.'
-  //   });
-  //   $scope.users.push(data.name);
-  // 	socket.on('user:left', function (data) {
-  //   		$scope.messages.push({
-  //     		user: 'chatroom',
-  //     		text: 'User ' + data.name + ' has left.'
-  //   		});
-  //   		var i, user;
-  //   		for (i = 0; i < $scope.users.length; i++) {
-  //     	user = $scope.users[i];
-  //     		if (user === data.name) {
-  //       		$scope.users.splice(i, 1);
-  //       		break;
-  //     		}
-  //   		}
-  // 	});
-  // });
 
 }]);
 
