@@ -9,6 +9,7 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 var userNames=[];
+
 io.on('connection', function (socket) {
     console.log('Connection detected');
     socket.on('init', function(data){

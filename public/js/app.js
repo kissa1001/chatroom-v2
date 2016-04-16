@@ -17,16 +17,18 @@ angular.module('chatroom')
 	socket.on('init', function (data) {
     $scope.userName = data.userName;
   });
-  socket.on('userNames', function(data){
-    $rootScope.users = data;
-    $scope.loggedIn = true;
-  })
-
 }]);
 
 angular.module('chatroom')
-.controller('chatUICtrl', ['socket','$scope','$rootScope',function chatUICtrl (socket, $scope, $rootScope){
+.controller('usersCtrl', ['socket','$scope','$rootScope',function usersCtrl (socket, $scope, $rootScope){
 	//Display users
+  socket.on('userNames', function(data){
+    $rootScope.users = data;
+    $rootScope.loggedIn = true;
+    $scope.privateMsg = function(){
+      console.log('privateMsg');
+    }
+  })
 }]);
 
 angular.module('chatroom')

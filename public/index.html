@@ -21,10 +21,13 @@
     <h1>Hello World!</h1>
     <div class="chatbox">
 
-        <div class="chatbox__user-list" ng-controller='chatUICtrl as chatUICtrl'>
+        <div class="chatbox__user-list" ng-controller='usersCtrl as usersCtrl'>
           <h1>User list</h1>
+          <div class='chatbox__user--active'>
+            <p ng-click='publicMsg()'>Public</p>
+          </div>
           <div class='chatbox__user--active' ng-repeat='user in users'>
-            <p>{{user}}</p>
+            <p ng-click='privateMsg()'>{{user}}</p>
           </div>
         </div>
 
