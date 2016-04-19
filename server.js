@@ -11,28 +11,39 @@ var io = socket_io(server);
 var userNames=[];
 
 io.on('connection', function (socket) {
-    console.log('Connection detected');
-    socket.on('init', function(data){
-    	userNames.push(data.userName);
-    	socket.userName = data.userName;
-    	console.log(data.userName + ' connected');
-    	socket.emit('userNames', userNames);
-    	socket.broadcast.emit('userNames', userNames);
-    })
+  console.log('Connection detected');
+  socket.on('init', function(data){
+    userNames.push(data.userName);
+    socket.userName = data.userName;
+    console.log(data.userName + ' connected');
+    socket.emit('userNames', userNames);
+    socket.broadcast.emit('userNames', userNames);
+  });
 
-    socket.on('send:message', function (data) {
-    	socket.broadcast.emit('send:message', {
-      		user: socket.userName,
-      		msg: data.message
-    	});
-    	console.log(socket.userName + ' said '+ data.message);
-  	});
+  socket.on('send:message', function (data) {
+    console.log(data);
+    if (data.target) {
+      targetSocket = _.findWhere(io.sockets.connected, {userName: data.target});
+      if (targetSocket) {
+        targetSocket.emit('send:message', {
+          user: socket.userName,
+          msg: 'WHISPER FROM ' + socket.userName + ': ' + data.message
+        });
+      }
+    } else {
+      socket.broadcast.emit('send:message', {
+        user: socket.userName,
+        msg: data.message
+      });
+      console.log(socket.userName + ' publicly said '+ data.message);
+    }
+  });
 
-  	socket.on('disconnect', function(){
-		  console.log(socket.userName + ' disconnected');
-		  userNames = _.without(userNames, socket.userName);
-		  socket.emit('userNames', userNames);
-    	socket.broadcast.emit('userNames', userNames);
-	});
+  socket.on('disconnect', function(){
+    console.log(socket.userName + ' disconnected');
+    userNames = _.without(userNames, socket.userName);
+    socket.emit('userNames', userNames);
+    socket.broadcast.emit('userNames', userNames);
+  });
 });
 server.listen(8080);
