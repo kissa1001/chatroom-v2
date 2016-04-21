@@ -21,23 +21,26 @@ io.on('connection', function (socket) {
   });
 
   socket.on('send:message', function (data) {
-    console.log(data);
     if (data.target) {
       targetSocket = _.findWhere(io.sockets.connected, {userName: data.target});
       if (targetSocket) {
-        targetSocket.emit('send:message', {
+        targetSocket.emit('send:privateMsg', {
           user: socket.userName,
-          msg: 'WHISPER FROM ' + socket.userName + ': ' + data.message
+          msg: data.message
         });
       }
     } else {
-      socket.broadcast.emit('send:message', {
+      socket.broadcast.emit('send:publicMsg', {
         user: socket.userName,
         msg: data.message
       });
       console.log(socket.userName + ' publicly said '+ data.message);
     }
   });
+
+  socket.on('playRequest', function(data){
+    socket.broadcast.emit('playRequest', data);
+  })
 
   socket.on('disconnect', function(){
     console.log(socket.userName + ' disconnected');
