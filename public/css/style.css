@@ -200,6 +200,7 @@ html, body {
 .dialog{
   z-index:9999;
   position:absolute;
+  background: rgba(255, 255, 255, 0.9);
 }
 .dialog p{
   color:#000;

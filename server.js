@@ -39,9 +39,36 @@ io.on('connection', function (socket) {
   });
 
   socket.on('playRequest', function(data){
-    socket.broadcast.emit('playRequest', data);
+    if (data.target) {
+      targetSocket = _.findWhere(io.sockets.connected, {userName: data.target});
+      if (targetSocket) {
+        targetSocket.emit('playRequest', data);
+      }
+    } 
+    else {
+      console.log('Error');
+    }
+  });
+  socket.on('challengeAccepted', function(data){
+    if (data.sender) {
+      senderSocket = _.findWhere(io.sockets.connected, {userName: data.sender});
+      if (senderSocket) {
+        senderSocket.emit('challengeAccepted', data);
+      }
+    } 
+    else {
+      console.log('Error');
+    }
+    console.log(data.receiver + ' accepted challenge');
   })
-
+  socket.on('players', function(data){
+    socket.broadcast.emit('players', data);
+    socket.emit('players', data);
+  });
+  socket.on('move', function(data){
+    socket.broadcast.emit('move', data);
+    socket.emit('move', data);
+  });
   socket.on('disconnect', function(){
     console.log(socket.userName + ' disconnected');
     userNames = _.without(userNames, socket.userName);
