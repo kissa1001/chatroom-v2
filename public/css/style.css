@@ -51,6 +51,11 @@ html, body {
 .login form input.form-control:focus {
   border: none;
 }
+.myUsername {
+  font-size: 1.3em;
+  padding-bottom:1em;
+  padding-top:1em;
+}
 .wrap {
   height: 100vh;
   width: 100vw;

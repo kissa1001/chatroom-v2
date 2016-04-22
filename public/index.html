@@ -24,10 +24,13 @@
       <div class="chatbox col-sm-6">
         <div class="chatbox__user-list" ng-controller='usersCtrl as usersCtrl'>
           <h1>User list</h1>
+          <div class="myUsername">
+            <p>Me: {{userName}}</p>
+          </div>
           <div class='chatbox__user' ng-class='{"chatbox__user--active": !whisper}' ng-click='usersCtrl.select(false)'>
             <p>Public</p>
           </div>
-          <div class='chatbox__user' ng-repeat='user in users' ng-class='{"chatbox__user--active": whisper===user}'
+          <div class='chatbox__user' ng-repeat='user in users' ng-if="user!=userName" ng-class='{"chatbox__user--active": whisper===user}'
           ng-click='usersCtrl.select(user)'>
           <p>{{user}} <button class='btn btn-warning btn-xs' ng-click='playRequest($event,user)'>Request to play!</button></p>
         </div>
