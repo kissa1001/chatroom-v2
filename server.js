@@ -2,6 +2,7 @@ var socket_io = require('socket.io');
 var http = require('http');
 var express = require('express');
 var _ = require('underscore');
+var UserManager = require('./usermanager.js');
 
 var app = express();
 app.use(express.static('public'));
@@ -9,82 +10,79 @@ app.use(express.static('public'));
 var server = http.Server(app);
 var io = socket_io(server);
 var userNames=[];
+var usermanager = new UserManager();
+
 
 io.on('connection', function (socket) {
   console.log('Connection detected');
-  socket.on('init', function(data){
-    userNames.push(data.userName);
-    socket.userName = data.userName;
-    console.log(data.userName + ' connected');
-    socket.emit('userNames', userNames);
-    socket.broadcast.emit('userNames', userNames);
+  socket.on('user:join', function(data){
+    var usersocket = usermanager.add(data.userName, socket);
+    if (!usersocket) {
+       socket.emit('user:error');
+    } else {
+      io.sockets.emit('user:list', usermanager.getNames());
+    }
   });
 
-  socket.on('send:message', function (data) {
-    if (data.target) {
-      targetSocket = _.findWhere(io.sockets.connected, {userName: data.target});
-      if (targetSocket) {
-        targetSocket.emit('send:privateMsg', {
-          user: socket.userName,
-          msg: data.message
-        });
-      }
-    } else {
-      socket.broadcast.emit('send:publicMsg', {
+  socket.on('message:public', function(data){
+      socket.broadcast.emit('message:public', {
         user: socket.userName,
         msg: data.message
       });
       console.log(socket.userName + ' publicly said '+ data.message);
-    }
   });
 
-  socket.on('playRequest', function(data){
-    if (data.target) {
-      targetSocket = _.findWhere(io.sockets.connected, {userName: data.target});
+  socket.on('message:private', function (data){
+      targetSocket = usermanager.getUser(data.target);
       if (targetSocket) {
-        targetSocket.emit('playRequest', data);
+        targetSocket.emit('message:private', {
+          user: socket.userName,
+          msg: data.message
+        });
       }
-    } 
-    else {
-      console.log('Error');
+  });
+
+  socket.on('game:request', function(data){
+    var targetSocket = usermanager.getUser(data.target);
+    if (targetSocket) {
+      targetSocket.emit('game:request', data);
+    } else {
+      console.log('Game Request Error');
+      socket.emit('game:request:error');
     }
   });
-  socket.on('challengeAccepted', function(data){
-    if (data.sender) {
-      senderSocket = _.findWhere(io.sockets.connected, {userName: data.sender});
+  socket.on('game:accept', function(data){
+      senderSocket = usermanager.getUser(data.sender);
       if (senderSocket) {
-        senderSocket.emit('challengeAccepted', data);
+        senderSocket.emit('game:accept', data);
+      } else {
+        console.log('Game Accept Error');
+        socket.emit('game:accept:error');
       }
-    } 
-    else {
-      console.log('Error');
-    }
-    console.log(data.receiver + ' accepted challenge');
-  })
-  socket.on('challengeDeclined', function(data){
-    if (data.sender) {
-      senderSocket = _.findWhere(io.sockets.connected, {userName: data.sender});
+  });
+
+  socket.on('game:decline', function(data){
+      senderSocket = usermanager.getUser(data.sender);
       if (senderSocket) {
-        senderSocket.emit('challengeDeclined', data);
+        senderSocket.emit('game:decline', data);
       }
-    } 
-    else {
-      console.log('Error');
-    }
-  })
-  socket.on('players', function(data){
-    socket.broadcast.emit('players', data);
-    socket.emit('players', data);
+      else {
+        socket.emit('game:decline:error');
+        console.log('Game Decline Error');
+      }
   });
-  socket.on('move', function(data){
-    socket.broadcast.emit('move', data);
-    socket.emit('move', data);
+
+  socket.on('game:players', function(data){
+    io.sockets.emit('game:players', data);
   });
+
+  socket.on('game:move', function(data){
+    io.sockets.emit('game:move', data);
+  });
+
   socket.on('disconnect', function(){
-    console.log(socket.userName + ' disconnected');
-    userNames = _.without(userNames, socket.userName);
-    socket.emit('userNames', userNames);
-    socket.broadcast.emit('userNames', userNames);
+    usermanager.removeUser(socket);
+    io.sockets.emit('user:list', usermanager.getNames());
   });
 });
 server.listen(8080);
