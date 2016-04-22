@@ -99,7 +99,7 @@ angular.module('chatroom')
           $rootScope.request = false;
           $rootScope.reqAccepted = true;
           $rootScope.firstPlayer = false;
-          console.log('You accepted chalenge! ' + data.sender + 'move first!');
+          console.log('You accepted chalenge. Now ' + data.sender + ' move first!');
           socket.emit('players', {
             players: {
               player1 : {
@@ -114,11 +114,22 @@ angular.module('chatroom')
           })
           socket.emit('challengeAccepted', {sender:data.sender, receiver: data.target});
         }; 
+        $rootScope.declineChallenge = function(){
+          $rootScope.request = false;
+          $rootScope.reqDeclined = true;
+          socket.emit('challengeDeclined', {sender:data.sender, receiver: data.target});
+          console.log('You declined the challenge!');
+        }
       });
-      socket.on('challengeAccepted', function(){
+      socket.on('challengeAccepted', function(data){
         $rootScope.request = false;
         $rootScope.reqAccepted = true;
-        console.log(data.receiver + 'accepted your challenge. Now you move first!');
+        console.log(data.receiver + ' accepted your challenge. Now you move first!');
+      })
+      socket.on('challengeDeclined', function(data){
+        $rootScope.request = false;
+        $rootScope.reqDeclined = true;
+        console.log(data.receiver + ' declined your challenge :(');
       })
       socket.on ('players', function(data){
           if (data.players.player1) {
@@ -131,7 +142,6 @@ angular.module('chatroom')
           }
       })
       $rootScope.move = function(X,Y,data){
-        console.log($rootScope.firstPlayer + ' is moving first!');
         data = tictactoe;
         if($rootScope.firstPlayer){
           socket.emit('move', {
@@ -148,7 +158,24 @@ angular.module('chatroom')
           })
         }
       };
+      winnerCheck = function(data){
+        data = tictactoe;
+        if(data.winner() !== undefined){
+          if(data.winner() == data.players[0].name){
+            alert(data.players[0].name + ' won!');
+          }
+          else{
+            alert(data.players[1].name + ' won!');
+          }
+          tictactoe.board = [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null]
+          ];
+        }
+      };
       socket.on('move', function(data){
         tictactoe.move(data.player, data.posX, data.posY);
+        winnerCheck();
       })
     }]);

@@ -61,6 +61,17 @@ io.on('connection', function (socket) {
     }
     console.log(data.receiver + ' accepted challenge');
   })
+  socket.on('challengeDeclined', function(data){
+    if (data.sender) {
+      senderSocket = _.findWhere(io.sockets.connected, {userName: data.sender});
+      if (senderSocket) {
+        senderSocket.emit('challengeDeclined', data);
+      }
+    } 
+    else {
+      console.log('Error');
+    }
+  })
   socket.on('players', function(data){
     socket.broadcast.emit('players', data);
     socket.emit('players', data);

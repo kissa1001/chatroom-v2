@@ -150,8 +150,8 @@ html, body {
   top:0;
   color:#fff;
   text-align: center;
-  width:100%;
-  padding:0.2em auto;
+  width:60%;
+  padding:0.5em auto;
   background:rgba(0,0,0,0.7);
 }
 .whisper{

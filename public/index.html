@@ -39,16 +39,23 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-success" ng-show = 'isReceiver' ng-click='acceptChallenge()'>Accept</button>
-            <button type="button" class="btn btn-danger" ng-show = 'isReceiver'>Decline</button>
+            <button type="button" class="btn btn-danger" ng-click='declineChallenge()' ng-show = 'isReceiver'>Decline</button>
           </div>
         </div>
-        <div class="dialog challengeAccept" role="dialog" ng-show='reqAccepted'>
+        <div class="dialog challengeAccept" role="dialog" ng-show='reqAccepted || reqDeclined'>
           <div class="modal-body">
-            <p ng-show = 'isSender'>{{whisper}} accepted your request! Now you move first</p>
-            <p ng-show = 'isReceiver'>You accepted the request! Now {{sender}} move first</p>
+            <div class="requestAccepted" ng-show='reqAccepted'>
+              <p ng-show = 'isSender'>{{whisper}} accepted your request. Now you move first!</p>
+              <p ng-show = 'isReceiver'>You accepted the request. Now {{sender}} move first!</p>
+            </div>
+            <div class="requestDeclined" ng-show='reqDeclined'>
+              <p ng-show = 'isSender'>{{whisper}} declined your request :(</p>
+              <p ng-show = 'isReceiver'>You declined the request from {{sender}} :(</p>
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" ng-click='reqAccepted = false'>Okay</button>
+            <button type="button" class="btn btn-success" ng-show='reqAccepted' ng-click='reqAccepted = false'>Okay</button>
+            <button type="button" class="btn btn-success" ng-show='reqDeclined' ng-click='reqDeclined = false'>Alright!</button>
           </div>
         </div> 
       </div>
