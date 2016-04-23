@@ -1,7 +1,5 @@
 
-angular.module('chatroom', ['btford.socket-io', 'ui.bootstrap']);
-
-
+angular.module('chatroom', ['btford.socket-io']);
 
 angular.module('chatroom')
 .factory('socket', function (socketFactory) {
@@ -28,12 +26,11 @@ angular.module('chatroom')
 // }]);
 
 angular.module('chatroom')
-.directive('login', function(){
+.directive('loginPage', function(){
   return {
-    restrict : 'E',
+    restrict : 'A',
     templateURL: '../partials/login-page.html',
     scope: true,
-    transclude:true,
     controller: ['socket', '$scope','$rootScope', 'tictactoe', function logInCtrl(socket, $scope, $rootScope, tictactoe){
       //Log user in
       $scope.submit = function(event){
@@ -47,7 +44,7 @@ angular.module('chatroom')
     }],
     controllerAs: 'logInCtrl'
   }
-})
+});
 
 angular.module('chatroom')
 .controller('usersCtrl', ['socket','$scope','$rootScope', 'tictactoe',
