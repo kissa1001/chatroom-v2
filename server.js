@@ -16,7 +16,7 @@ var usermanager = new UserManager();
 io.on('connection', function (socket) {
   console.log('Connection detected');
   socket.on('user:join', function(data){
-    var usersocket = usermanager.add(data.userName, socket);
+    var usersocket = usermanager.addUser(data.userName, socket);
     if (!usersocket) {
        socket.emit('user:error');
     } else {
@@ -29,7 +29,6 @@ io.on('connection', function (socket) {
         user: socket.userName,
         msg: data.message
       });
-      console.log(socket.userName + ' publicly said '+ data.message);
   });
 
   socket.on('message:private', function (data){

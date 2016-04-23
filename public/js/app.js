@@ -1,6 +1,8 @@
 
 angular.module('chatroom', ['btford.socket-io', 'ui.bootstrap']);
 
+
+
 angular.module('chatroom')
 .factory('socket', function (socketFactory) {
   return socketFactory();
@@ -11,19 +13,41 @@ angular.module('chatroom')
   return new TicTacToe();
 });
 
+// angular.module('chatroom')
+// .controller('logInCtrl', ['socket', '$scope','$rootScope', 'tictactoe',
+//   function logInCtrl(socket, $scope, $rootScope, tictactoe){
+//   //Log user in
+//   $scope.submit = function(event){
+//     event.preventDefault();
+//     socket.emit('user:join',{userName:$scope.userName});
+//     $rootScope.userName = $scope.userName;
+//   }
+//   socket.on('user:join', function (data) {
+//     $scope.userName = data.userName;
+//   });
+// }]);
+
 angular.module('chatroom')
-.controller('logInCtrl', ['socket', '$scope','$rootScope', 'tictactoe',
-  function logInCtrl(socket, $scope, $rootScope, tictactoe){
-  //Log user in
-  $scope.submit = function(event){
-    event.preventDefault();
-    socket.emit('init',{userName:$scope.userName});
-    $rootScope.userName = $scope.userName;
+.directive('login', function(){
+  return {
+    restrict : 'E',
+    templateURL: '../partials/login-page.html',
+    scope: true,
+    transclude:true,
+    controller: ['socket', '$scope','$rootScope', 'tictactoe', function logInCtrl(socket, $scope, $rootScope, tictactoe){
+      //Log user in
+      $scope.submit = function(event){
+      event.preventDefault();
+      socket.emit('user:join',{userName:$scope.userName});
+        $rootScope.userName = $scope.userName;
+      }
+      socket.on('user:join', function (data) {
+        $scope.userName = data.userName;
+      });
+    }],
+    controllerAs: 'logInCtrl'
   }
-  socket.on('init', function (data) {
-    $scope.userName = data.userName;
-  });
-}]);
+})
 
 angular.module('chatroom')
 .controller('usersCtrl', ['socket','$scope','$rootScope', 'tictactoe',
@@ -32,7 +56,7 @@ angular.module('chatroom')
       $rootScope.whisper = user;
     };
   //Display users
-  socket.on('userNames', function(data){
+  socket.on('user:list', function(data){
     $rootScope.users = data;
     $rootScope.loggedIn = true;
   })
@@ -47,7 +71,11 @@ angular.module('chatroom')
   $scope.messages = [];
   $scope.sendMsg = function(event){
     event.preventDefault();
-    socket.emit('send:message', {
+    socket.emit('message:public', {
+      user: $rootScope.userName,
+      message: $scope.message
+    });
+    socket.emit('message:private', {
       message: $scope.message,
       target: $rootScope.whisper
     });
@@ -67,10 +95,10 @@ angular.module('chatroom')
     
     $scope.message = '';
   }
-  socket.on('send:publicMsg', function (message) {
+  socket.on('message:public', function (message) {
     $scope.messages.push({msg: 'p/ ' + message.msg, user: message.user, whisper: false});
   });
-  socket.on('send:privateMsg', function(message){
+  socket.on('message:private', function(message){
     $scope.messages.push({msg: 'w/ ' + message.msg, user: message.user, whisper: true});
   })
 }]);
@@ -84,13 +112,13 @@ angular.module('chatroom')
       $rootScope.playRequest = function(e, user, data){
         e.preventDefault();
         $rootScope.whisper = user;
-        socket.emit('playRequest', {sender:$rootScope.userName, target:$rootScope.whisper});
+        socket.emit('game:request', {sender:$rootScope.userName, target:$rootScope.whisper});
         console.log('sent request to ' + $rootScope.whisper);
         $rootScope.request = true;
         $rootScope.isSender = true;
         $rootScope.firstPlayer = true;
       }
-      socket.on('playRequest', function(data){
+      socket.on('game:request', function(data){
         console.log('request sent from ' + data.sender);
         $rootScope.sender = data.sender;
         $rootScope.request = true;
@@ -100,7 +128,7 @@ angular.module('chatroom')
           $rootScope.reqAccepted = true;
           $rootScope.firstPlayer = false;
           console.log('You accepted chalenge. Now ' + data.sender + ' move first!');
-          socket.emit('players', {
+          socket.emit('game:players', {
             players: {
               player1 : {
                 name: data.sender,
@@ -112,26 +140,26 @@ angular.module('chatroom')
               }
             }
           })
-          socket.emit('challengeAccepted', {sender:data.sender, receiver: data.target});
+          socket.emit('game:accept', {sender:data.sender, receiver: data.target});
         }; 
         $rootScope.declineChallenge = function(){
           $rootScope.request = false;
           $rootScope.reqDeclined = true;
-          socket.emit('challengeDeclined', {sender:data.sender, receiver: data.target});
+          socket.emit('game:decline', {sender:data.sender, receiver: data.target});
           console.log('You declined the challenge!');
         }
       });
-      socket.on('challengeAccepted', function(data){
+      socket.on('game:accept', function(data){
         $rootScope.request = false;
         $rootScope.reqAccepted = true;
         console.log(data.receiver + ' accepted your challenge. Now you move first!');
       })
-      socket.on('challengeDeclined', function(data){
+      socket.on('game:decline', function(data){
         $rootScope.request = false;
         $rootScope.reqDeclined = true;
         console.log(data.receiver + ' declined your challenge :(');
       })
-      socket.on ('players', function(data){
+      socket.on ('game:players', function(data){
           if (data.players.player1) {
             tictactoe.players[0] = new Player(
               data.players.player1.name, data.players.player1.sign);
@@ -144,14 +172,14 @@ angular.module('chatroom')
       $rootScope.move = function(X,Y,data){
         data = tictactoe;
         if($rootScope.firstPlayer){
-          socket.emit('move', {
+          socket.emit('game:move', {
             player: data.players[0].name,
             posX: X,
             posY: Y
           })
         }
         else{
-          socket.emit('move', {
+          socket.emit('game:move', {
             player: data.players[1].name,
             posX: X,
             posY: Y
@@ -174,7 +202,7 @@ angular.module('chatroom')
           ];
         }
       };
-      socket.on('move', function(data){
+      socket.on('game:move', function(data){
         tictactoe.move(data.player, data.posX, data.posY);
         winnerCheck();
       })
