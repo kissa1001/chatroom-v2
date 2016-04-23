@@ -1,0 +1,11 @@
+ <div>
+  <table class="board">
+    <tbody>
+      <tr ng-repeat="row in tictactoe.board track by $index">
+        <td ng-repeat="cell in row track by $index" ng-click="move($parent.$index, $index)">
+          {{ cell }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

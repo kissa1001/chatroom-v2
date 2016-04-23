@@ -1,6 +1,5 @@
 
 angular.module('chatroom', ['btford.socket-io']);
-
 angular.module('chatroom')
 .factory('socket', function (socketFactory) {
   return socketFactory();
@@ -11,31 +10,17 @@ angular.module('chatroom')
   return new TicTacToe();
 });
 
-// angular.module('chatroom')
-// .controller('logInCtrl', ['socket', '$scope','$rootScope', 'tictactoe',
-//   function logInCtrl(socket, $scope, $rootScope, tictactoe){
-//   //Log user in
-//   $scope.submit = function(event){
-//     event.preventDefault();
-//     socket.emit('user:join',{userName:$scope.userName});
-//     $rootScope.userName = $scope.userName;
-//   }
-//   socket.on('user:join', function (data) {
-//     $scope.userName = data.userName;
-//   });
-// }]);
-
 angular.module('chatroom')
 .directive('loginPage', function(){
   return {
-    restrict : 'A',
-    templateURL: '../partials/login-page.html',
+    restrict : 'E',
+    templateUrl: 'partials/login-page.html',
     scope: true,
     controller: ['socket', '$scope','$rootScope', 'tictactoe', function logInCtrl(socket, $scope, $rootScope, tictactoe){
       //Log user in
       $scope.submit = function(event){
-      event.preventDefault();
-      socket.emit('user:join',{userName:$scope.userName});
+        event.preventDefault();
+        socket.emit('user:join',{userName:$scope.userName});
         $rootScope.userName = $scope.userName;
       }
       socket.on('user:join', function (data) {
@@ -47,63 +32,80 @@ angular.module('chatroom')
 });
 
 angular.module('chatroom')
-.controller('usersCtrl', ['socket','$scope','$rootScope', 'tictactoe',
-  function usersCtrl (socket, $scope, $rootScope, tictactoe){
-    this.select = function(user) {
-      $rootScope.whisper = user;
-    };
-  //Display users
-  socket.on('user:list', function(data){
-    $rootScope.users = data;
-    $rootScope.loggedIn = true;
-  })
-  
-
-}]);
-
-angular.module('chatroom')
-.controller('chatCtrl', ['socket','$scope','$rootScope', 'tictactoe',
-  function chatCtrl(socket, $scope,$rootScope, tictactoe){
-  //Chat here
-  $scope.messages = [];
-  $scope.sendMsg = function(event){
-    event.preventDefault();
-    socket.emit('message:public', {
-      user: $rootScope.userName,
-      message: $scope.message
-    });
-    socket.emit('message:private', {
-      message: $scope.message,
-      target: $rootScope.whisper
-    });
-    if($rootScope.whisper){
-      $scope.messages.push({
-        user: $rootScope.userName,
-        msg: 'w/ ' + $scope.message,
-        whisper: true
+.directive('userList', function(){
+  return {
+    restrict : 'E',
+    templateUrl: 'partials/user-list.html',
+    scope: true,
+    controller: ['socket','$scope','$rootScope', 'tictactoe', function usersCtrl (socket, $scope, $rootScope, tictactoe){
+      this.select = function(user) {
+        $rootScope.whisper = user;
+      };
+      //Display users
+      socket.on('user:list', function(data){
+        $rootScope.users = data;
+        $rootScope.loggedIn = true;
       })
-    }
-    else{
-      $scope.messages.push({
-        user: $rootScope.userName,
-        msg: 'p/ ' + $scope.message
-      });
-    }
-    
-    $scope.message = '';
+    }],
+    controllerAs: 'usersCtrl'
   }
-  socket.on('message:public', function (message) {
-    $scope.messages.push({msg: 'p/ ' + message.msg, user: message.user, whisper: false});
-  });
-  socket.on('message:private', function(message){
-    $scope.messages.push({msg: 'w/ ' + message.msg, user: message.user, whisper: true});
-  })
-}]);
+});
 
 angular.module('chatroom')
-.controller('gameCtrl',['$scope', '$rootScope', 'socket', 'tictactoe',
-  function($scope, $rootScope, socket, tictactoe){
-    $scope.tictactoe = tictactoe;
+.directive('chatBlock', function(){
+  return {
+    restrict : 'E',
+    templateUrl: 'partials/chat-block.html',
+    scope: true,
+    controller: ['socket','$scope','$rootScope', 'tictactoe', function chatCtrl(socket, $scope,$rootScope, tictactoe){
+      //Chat here
+      $scope.messages = [];
+      $scope.sendMsg = function(event){
+        event.preventDefault();
+        socket.emit('message:public', {
+          user: $rootScope.userName,
+          message: $scope.message
+        });
+        socket.emit('message:private', {
+          message: $scope.message,
+          target: $rootScope.whisper
+        });
+        if($rootScope.whisper){
+          $scope.messages.push({
+            user: $rootScope.userName,
+            msg: 'w/ ' + $scope.message,
+            whisper: true
+          })
+        }
+        else{
+          $scope.messages.push({
+            user: $rootScope.userName,
+            msg: 'p/ ' + $scope.message
+          });
+        }
+
+        $scope.message = '';
+      }
+      socket.on('message:public', function (message) {
+        $scope.messages.push({msg: 'p/ ' + message.msg, user: message.user, whisper: false});
+      });
+      socket.on('message:private', function(message){
+        $scope.messages.push({msg: 'w/ ' + message.msg, user: message.user, whisper: true});
+      })
+    }],
+    controllerAs: 'chatCtrl'
+  }
+});
+
+angular.module('chatroom')
+.directive('gameWrap', function(){
+  return {
+    restrict : 'E',
+    templateUrl: 'partials/game-wrap.html',
+    scope: true,
+    controller: ['$scope', '$rootScope', 'socket', 'tictactoe',
+    function($scope, $rootScope, socket, tictactoe){
+      $scope.tictactoe = tictactoe;
 
       //Play request
       $rootScope.playRequest = function(e, user, data){
@@ -157,14 +159,14 @@ angular.module('chatroom')
         console.log(data.receiver + ' declined your challenge :(');
       })
       socket.on ('game:players', function(data){
-          if (data.players.player1) {
-            tictactoe.players[0] = new Player(
-              data.players.player1.name, data.players.player1.sign);
-          }
-          if (data.players.player2) {
-            tictactoe.players[1] = new Player(
-              data.players.player2.name, data.players.player2.sign);
-          }
+        if (data.players.player1) {
+          tictactoe.players[0] = new Player(
+            data.players.player1.name, data.players.player1.sign);
+        }
+        if (data.players.player2) {
+          tictactoe.players[1] = new Player(
+            data.players.player2.name, data.players.player2.sign);
+        }
       })
       $rootScope.move = function(X,Y,data){
         data = tictactoe;
@@ -193,9 +195,9 @@ angular.module('chatroom')
             alert(data.players[1].name + ' won!');
           }
           tictactoe.board = [
-            [null, null, null],
-            [null, null, null],
-            [null, null, null]
+          [null, null, null],
+          [null, null, null],
+          [null, null, null]
           ];
         }
       };
@@ -203,4 +205,7 @@ angular.module('chatroom')
         tictactoe.move(data.player, data.posX, data.posY);
         winnerCheck();
       })
-    }]);
+    }],
+    controllerAs: 'gameCtrl'
+  }
+});

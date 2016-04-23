@@ -77,10 +77,9 @@ html, body {
 }
 .chatbox__messages__user-message {
   width: 350px;
-}
-.chatbox__messages{
   overflow-y: scroll; 
 }
+
 .chatbox__messages__user-message--ind-message {
   background: rgba(255, 255, 255, 0.2);
   padding: 1.5em 1em;

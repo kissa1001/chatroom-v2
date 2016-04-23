@@ -1,0 +1,40 @@
+<div class="chatbox__user-list">
+  <h1>User list</h1>
+  <div class="myUsername">
+    <p>Me: {{userName}}</p>
+  </div>
+  <div class='chatbox__user' ng-class='{"chatbox__user--active": !whisper}' ng-click='usersCtrl.select(false)'>
+    <p>Public</p>
+  </div>
+  <div class='chatbox__user' ng-repeat='user in users' ng-if="user!=userName" ng-class='{"chatbox__user--active": whisper===user}'
+  ng-click='usersCtrl.select(user)'>
+  <p>{{user}} <button class='btn btn-warning btn-xs' ng-click='playRequest($event,user)'>Request to play!</button></p>
+</div>
+
+<div class="dialog challengeRequest" id="myModal" role="dialog" ng-show='request'>
+  <div class="modal-body">
+    <p ng-show = 'isReceiver'>Play Request from {{sender}}</p>
+    <p ng-show = 'isSender'>Sending request to {{whisper}} please wait...</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-show = 'isReceiver' ng-click='acceptChallenge()'>Accept</button>
+    <button type="button" class="btn btn-danger" ng-click='declineChallenge()' ng-show = 'isReceiver'>Decline</button>
+  </div>
+</div>
+<div class="dialog challengeAccept" role="dialog" ng-show='reqAccepted || reqDeclined'>
+  <div class="modal-body">
+    <div class="requestAccepted" ng-show='reqAccepted'>
+      <p ng-show = 'isSender'>{{whisper}} accepted your request. Now you move first!</p>
+      <p ng-show = 'isReceiver'>You accepted the request. Now {{sender}} move first!</p>
+    </div>
+    <div class="requestDeclined" ng-show='reqDeclined'>
+      <p ng-show = 'isSender'>{{whisper}} declined your request :(</p>
+      <p ng-show = 'isReceiver'>You declined the request from {{sender}} :(</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-show='reqAccepted' ng-click='reqAccepted = false'>Okay</button>
+    <button type="button" class="btn btn-success" ng-show='reqDeclined' ng-click='reqDeclined = false'>Alright!</button>
+  </div>
+</div> 
+</div>

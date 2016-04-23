@@ -13,4 +13,4 @@ $(function(){
     $("#chat").scroll(function () {
         $("#chat").addClass("thin");
     });
-})
+});
