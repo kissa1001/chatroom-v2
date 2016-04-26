@@ -10,7 +10,25 @@ html, body {
   background: linear-gradient(180deg, #2EC4B6, #9EB1E9);
   font-family: 'Nunito', sans-serif;
 }
-
+body h3, body h4{
+  color:#fff;
+  text-align: center;
+}
+input::-webkit-input-placeholder {
+color: #A4A4A4 !important;
+}
+ 
+input:-moz-placeholder { /* Firefox 18- */
+color: #A4A4A4 !important;  
+}
+ 
+input::-moz-placeholder {  /* Firefox 19+ */
+color: #A4A4A4 !important;  
+}
+ 
+input:-ms-input-placeholder {  
+color: #A4A4A4 !important;  
+}
 .login {
   padding: 15px;
   width: 400px;
@@ -68,20 +86,21 @@ html, body {
 }
 
 .chatbox {
-  background: rgba(255, 255, 255, 0.05);
+  background: #FAFAFA;
   width: 600px;
   height: 500px;
   border-radius: 0.2em;
   position: relative;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
 }
+
 .chatbox__messages__user-message {
   width: 350px;
   overflow-y: scroll; 
 }
 
 .chatbox__messages__user-message--ind-message {
-  background: rgba(255, 255, 255, 0.2);
+  background: #43d3c5;
   padding: 1.5em 1em;
   height: auto;
   width: 70%;
@@ -90,63 +109,56 @@ html, body {
   float:right;
 }
 .chatbox__messages__user-message--ind-message > p.name {
-  color: #fff;
+  color: #111;
   font-size: 1.2em;
 }
 .chatbox__messages__user-message--ind-message > span.message {
-  color: #fff;
+  color: #111;
   font-size: 1em;
   margin: 0 2.8em;
 }
 .chatbox__user-list {
-  background: rgba(255, 255, 255, 0.1);
-  width: 35%;
+  background: #43d3c5;
+  width: 30%;
   height: 100%;
   float: right;
   border-top-right-radius: 0.2em;
   border-bottom-right-radius: 0.2em;
 }
-.chatbox__user-list h1 {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.5em;
-  padding:1em 0.05em;
-  margin: 0;
-  font-weight: 300;
-  text-align: center;
-}
-.chatbox__user, .chatbox__user--active, .chatbox__user--busy {
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: 100%;
-  margin: 1.1em 0.5em;
+
+.chatbox__user, .chatbox__user--active {
+  width: 100%;
+  height: 3em;
+  text-align:center;
   cursor:pointer;
+  color:#fff;
+  padding-top:0.7em;
 }
 .chatbox__user--active {
-  background: rgba(62, 173, 43, 0.8);
+  background: #33A095;
 }
 .chatbox p {
-  float: left;
   text-align: left;
-  margin: -0.5em 0.9em;
   font-size:1.2em;
   font-weight: 300;
-  color: #FFF;
-  width: 200px;
+  color: #fff;
 }
 .chatbox form {
   background: #222;
 }
 .chatbox form input {
-  background: rgba(255, 255, 255, 0.03);
+  background: #FAFAFA;
   position: absolute;
   bottom: 0;
   left: 0;
-  border: none;
-  width: 65%;
+  border-top:1px solid #424242;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  width: 70%;
   padding: 1.2em;
   outline: none;
-  color: rgba(255, 255, 255, 0.9);
+  color: #424242;
   font-weight: 300;
 }
 .whisperWarn{

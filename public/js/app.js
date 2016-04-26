@@ -1,5 +1,5 @@
-
 angular.module('chatroom', ['btford.socket-io']);
+
 angular.module('chatroom')
 .factory('socket', function (socketFactory) {
   return socketFactory();
@@ -11,21 +11,29 @@ angular.module('chatroom')
 });
 
 angular.module('chatroom')
+.service('userService',['socket', function(socket){
+  this.user = {};
+  this.join = function(userName){
+    socket.emit('user:join',{userName:userName});
+  };
+  socket.on('user:join', function (data) {
+    this.user.name = data.userName;
+  });
+}]);
+
+angular.module('chatroom')
 .directive('loginPage', function(){
   return {
     restrict : 'E',
     templateUrl: 'partials/login-page.html',
     scope: true,
-    controller: ['socket', '$scope','$rootScope', 'tictactoe', function logInCtrl(socket, $scope, $rootScope, tictactoe){
+    controller: ['$scope', 'userService', function logInCtrl($scope, userService){
       //Log user in
+      $scope.user = userService.user;
       $scope.submit = function(event){
         event.preventDefault();
-        socket.emit('user:join',{userName:$scope.userName});
-        $rootScope.userName = $scope.userName;
+        userService.join($scope.userName);
       }
-      socket.on('user:join', function (data) {
-        $scope.userName = data.userName;
-      });
     }],
     controllerAs: 'logInCtrl'
   }
@@ -98,10 +106,10 @@ angular.module('chatroom')
 });
 
 angular.module('chatroom')
-.directive('gameWrap', function(){
+.directive('ticTacToe', function(){
   return {
     restrict : 'E',
-    templateUrl: 'partials/game-wrap.html',
+    templateUrl: 'partials/tic-tac-toe.html',
     scope: true,
     controller: ['$scope', '$rootScope', 'socket', 'tictactoe',
     function($scope, $rootScope, socket, tictactoe){
@@ -206,6 +214,6 @@ angular.module('chatroom')
         winnerCheck();
       })
     }],
-    controllerAs: 'gameCtrl'
+    controllerAs: 'tictactoeCtrl'
   }
 });

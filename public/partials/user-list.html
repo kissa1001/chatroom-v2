@@ -1,14 +1,19 @@
 <div class="chatbox__user-list">
-  <h1>User list</h1>
   <div class="myUsername">
-    <p>Me: {{userName}}</p>
+    <h3>Me: {{user.name}}</h3>
   </div>
-  <div class='chatbox__user' ng-class='{"chatbox__user--active": !whisper}' ng-click='usersCtrl.select(false)'>
-    <p>Public</p>
-  </div>
+  <h4>User list</h4>
+  <div class='chatbox__user' ng-class='{"chatbox__user--active": !whisper}' ng-click='usersCtrl.select(false)'>Public</div>
   <div class='chatbox__user' ng-repeat='user in users' ng-if="user!=userName" ng-class='{"chatbox__user--active": whisper===user}'
-  ng-click='usersCtrl.select(user)'>
-  <p>{{user}} <button class='btn btn-warning btn-xs' ng-click='playRequest($event,user)'>Request to play!</button></p>
+  >
+  <div class="btn-group">
+    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{user}} <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li ng-click='usersCtrl.select(user)'>Start Messaging</li>
+      <li role="separator" class="divider"></li>
+      <li ng-click='playRequest($event,user)'>Invite to play</li>
+    </ul>
+  </div>
 </div>
 
 <div class="dialog challengeRequest" id="myModal" role="dialog" ng-show='request'>
