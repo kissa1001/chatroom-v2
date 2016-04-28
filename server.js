@@ -20,8 +20,13 @@ io.on('connection', function (socket) {
     if (!usersocket) {
        socket.emit('user:error');
     } else {
+      socket.emit('user:join', {userName:usersocket.userName});
       io.sockets.emit('user:list', usermanager.getNames());
     }
+  });
+
+  socket.on('user:queryList', function(){
+    socket.emit('user:list', usermanager.getNames());
   });
 
   socket.on('message:public', function(data){

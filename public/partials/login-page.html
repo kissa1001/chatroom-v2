@@ -1,8 +1,8 @@
-<div class="logIn login"  ng-show='!loggedIn'>
-	<form class="form-inline" ng-submit='submit($event)'>
+<div class="logIn login"  ng-hide='me.loggedIn'>
+	<form class="form-inline userName" ng-submit='submit($event)'>
 		<div class="input-group input-group-lg">
-			<span class="input-group-addon"><i class="fa fa-user"></i></span>
-			<input type="text" ng-model='userName' class="form-control" id="signInform" placeholder="Enter your username">
+			<span class="input-group-addon"><i class="fa fa-user-plus" aria-hidden="true"></i></span>
+			<input type="text" required autofocus ng-model='userName' class="form-control" id="signInform" placeholder="Enter your username">
 		</div>
 	</form>
 </div>

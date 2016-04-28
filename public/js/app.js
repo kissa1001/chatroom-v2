@@ -13,12 +13,27 @@ angular.module('chatroom')
 angular.module('chatroom')
 .service('userService',['socket', function(socket){
   this.user = {};
+  var self = this;
   this.join = function(userName){
     socket.emit('user:join',{userName:userName});
   };
   socket.on('user:join', function (data) {
-    this.user.name = data.userName;
+    self.user.name = data.userName;
+    self.user.loggedIn = true;
   });
+}]);
+
+angular.module('chatroom')
+.service('userListService',['socket', function(socket){
+  this.users = [];
+  this.query =  function(){
+    socket.emit('user:queryList');
+  }
+  var service=this;
+  socket.on('user:list', function(data){
+    console.log(data);
+    service.users = data;
+  })
 }]);
 
 angular.module('chatroom')
@@ -29,7 +44,7 @@ angular.module('chatroom')
     scope: true,
     controller: ['$scope', 'userService', function logInCtrl($scope, userService){
       //Log user in
-      $scope.user = userService.user;
+      $scope.me = userService.user;
       $scope.submit = function(event){
         event.preventDefault();
         userService.join($scope.userName);
@@ -45,15 +60,12 @@ angular.module('chatroom')
     restrict : 'E',
     templateUrl: 'partials/user-list.html',
     scope: true,
-    controller: ['socket','$scope','$rootScope', 'tictactoe', function usersCtrl (socket, $scope, $rootScope, tictactoe){
+    controller: ['userListService','userService','$scope', function usersCtrl (userListService,userService, $scope){
+      $scope.users = userListService.users;
+      $scope.me = userService.user;
       this.select = function(user) {
         $rootScope.whisper = user;
       };
-      //Display users
-      socket.on('user:list', function(data){
-        $rootScope.users = data;
-        $rootScope.loggedIn = true;
-      })
     }],
     controllerAs: 'usersCtrl'
   }

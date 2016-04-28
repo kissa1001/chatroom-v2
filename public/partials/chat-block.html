@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <form ng-submit='sendMsg($event)'>
+  <form class='chatInput' ng-submit='sendMsg($event)'>
     <label class='whisperWarn' ng-show='whisper'>You're sending a message only to {{whisper}}!</label>
     <input type="text" ng-model='message' placeholder="Enter your message">
   </form>

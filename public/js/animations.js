@@ -1,5 +1,4 @@
 $(function(){
-  $('form:first *:input[type!=hidden]:first').focus();
 
     //Scrollbar
     $("#chat").addClass("thin");
