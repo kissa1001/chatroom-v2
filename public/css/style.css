@@ -186,26 +186,6 @@ color: #A4A4A4 !important;
   color: #424242;
   font-weight: 300;
 }
-.whisperWarn{
-  position :absolute;
-  top:0;
-  color:#fff;
-  text-align: center;
-  width:70%;
-  padding:0.5em auto;
-  background:rgba(0,0,0,0.7);
-}
-.whisper{
-  background: #33A095;
-  padding: 0.5em 0.5em;
-  height: auto;
-  width: 70%;
-  border-radius: 5px;
-  margin: 0.5em auto;
-  margin-left: 1.5em;
-  float:left;
-  color:#fff;
-}
 
 .board {
   position: relative;
@@ -233,7 +213,21 @@ color: #A4A4A4 !important;
 .dialog p{
   color:#000;
 }
-
+.whisper{
+  background: #33A095;
+  padding: 0.5em 0.5em;
+  height: auto;
+  width: 70%;
+  border-radius: 5px;
+  margin: 0.5em auto;
+  margin-left: 1.5em;
+  float:left;
+  color:#fff;
+}
+.time{
+  font-size: 0.9em;
+  color:#fff;
+}
 .dropdown-submenu{position:relative;}
 .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
 .dropdown-submenu:hover>.dropdown-menu{display:block;}

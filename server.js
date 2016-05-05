@@ -30,19 +30,23 @@ io.on('connection', function (socket) {
   });
 
   socket.on('message:public', function(data){
-      socket.broadcast.emit('message:public', {
-        user: socket.userName,
-        msg: data.message
+      console.log(data);
+      io.sockets.emit('message:public', {
+        sender: socket.userName,
+        msg: data.msg
       });
   });
 
   socket.on('message:private', function (data){
       targetSocket = usermanager.getUser(data.target);
       if (targetSocket) {
-        targetSocket.emit('message:private', {
-          user: socket.userName,
-          msg: data.message
-        });
+        var message = {
+          sender: socket.userName,
+          msg: data.msg,
+          target: data.target
+        };
+        targetSocket.emit('message:private', message);
+        socket.emit('message:private', message);
       }
   });
 
