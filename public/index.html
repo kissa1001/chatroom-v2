@@ -7,6 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Nunito|Cabin+Sketch' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 </head>
+
 <body ng-app='chatroom'>
   <login-page></login-page>
   <div class="wrap container">
@@ -16,8 +17,9 @@
         <user-list></user-list>
         <chat-block></chat-block>
       </div>
-      <div class="gameWrap container col-sm-6" ng-show='reqAccepted'>
-        <tic-tac-toe></tic-tac-toe>
+      <div class="gameWrap container col-sm-6">
+        <tic-tac-toe ng-show='ttt.showBoard'></tic-tac-toe>
+        <play-request></play-request>
       </div>
     </div>
   </div>
@@ -37,8 +39,17 @@
 <!--javascript files-->
 <script src="js/animations.js"></script>
 <script src="js/app.js"></script>
-<script src="js/directives/directives.js"></script>
-<script src="js/services/services.js"></script>
 <script src="js/tic-tac-toe.js"></script>
+<!--Services-->
+<script src="js/services/userService.js"></script>
+<script src="js/services/userListService.js"></script>
+<script src="js/services/messageService.js"></script>
+<script src="js/services/tictactoeService.js"></script>
+<!--Directives-->
+<script src="js/directives/loginDirective.js"></script>
+<script src="js/directives/userListDirective.js"></script>
+<script src="js/directives/chatDirective.js"></script>
+<script src="js/directives/playRequestDirective.js"></script>
+<script src="js/directives/tictactoeDirective.js"></script>
 </body>
 </html>

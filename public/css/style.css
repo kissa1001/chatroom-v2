@@ -29,6 +29,7 @@ color: #A4A4A4 !important;
 input:-ms-input-placeholder {  
 color: #A4A4A4 !important;  
 }
+/* Login page*/
 .login {
   padding: 15px;
   width: 400px;
@@ -69,6 +70,7 @@ color: #A4A4A4 !important;
 .login form input.form-control:focus {
   border: none;
 }
+/*Game Page*/
 .myUsername {
   font-size: 1.3em;
   padding-bottom:1em;
@@ -143,9 +145,6 @@ color: #A4A4A4 !important;
   cursor:pointer;
   color:#fff;
 }
-.modal-footer button{
-  display:inline;
-}
 .dropdown-menu{
   color:#111;
 }
@@ -207,11 +206,26 @@ color: #A4A4A4 !important;
 }
 .dialog{
   z-index:9999;
-  position:absolute;
-  background: rgba(255, 255, 255, 0.9);
+  position:fixed;
+  top:20%;
+  left:60%;
+  width:300px;
+  height:200px;
+  background: #fff;
 }
 .dialog p{
   color:#000;
+  text-align: center;
+  font-size: 1.3em;
+}
+body .modal-footer{
+  text-align: center;
+}
+.game-request{
+  margin: 2em auto; 
+  text-align: left;
+  width: inherit;
+  display: inline-block;
 }
 .whisper{
   background: #33A095;
@@ -227,6 +241,23 @@ color: #A4A4A4 !important;
 .time{
   font-size: 0.9em;
   color:#fff;
+}
+
+.stat-message {
+  background-color: green;
+  color: #fff;
+  box-shadow: 2px 2px 20px black;
+  font-size: 1.5em;
+  margin-top: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+  text-align: center;
+}
+.stat-message div {
+  padding: 10px;
+  border-bottom: 1px solid white;
+}
+.stat-message div:last-child {
+  border-bottom: none;
 }
 .dropdown-submenu{position:relative;}
 .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}

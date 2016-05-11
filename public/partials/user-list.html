@@ -7,18 +7,15 @@
     <p class='public'>Public</p>
   </div>
   <div class='chatbox__user' ng-repeat='user in userList.users' ng-if="user!=me.name" ng-class='{"chatbox__user--active": whisper===user}'>
-  <div class="btn-group">
-    <button type="button" class="btn user-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu" aria-labelledby="dLabel" ng-click='usersCtrl.select(user)'>{{user}} <span class="caret"></span></button>
+    <div class="btn-group">
+      <button type="button" class="btn user-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu" aria-labelledby="dLabel" ng-click='usersCtrl.select(user)'>{{user}} <span class="caret"></span></button>
 
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-      <li class='text-center'>
-        <a tabindex="-1" href="#">Start Messaging</a></li>
-        <li role="separator" class="divider"></li>
-        <li class="text-center dropdown-submenu">
-          <a tabindex="-1" href="#">Invite to play</a>
-          <ul class="dropdown-menu" play-request></ul>
-        </li>
-      </ul>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" ng-click='usersCtrl.select(user)'>
+        <li class='text-center'>
+          <a tabindex="-1" href="#">Start Messaging</a></li>
+          <li role="separator" class="divider"></li>
+          <li class="text-center" ng-click='tictactoeRequest(user)'><a tabindex="-1" href="#">Invite to play</a></li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>

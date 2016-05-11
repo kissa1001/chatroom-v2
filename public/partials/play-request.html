@@ -1,32 +1,28 @@
-
-<li ng-click='tictactoeRequest($event,user)'><a tabindex="-1" href="#">Tic Tac Toe</a></li>
-<li ng-click='playRequest($event,user)'><a href="#">Sea Battle</a></li>
-
-<div class="dialog challengeRequest" id="myModal" role="dialog" ng-show='game.requesting'>
+<div class="dialog challengeRequest" id="myModal" role="dialog" ng-show='ttt.requesting'>
 	<div class="modal-body">
-		<p ng-show = 'game.isReceiver'>Play Request from {{sender}}</p>
-		<p ng-show = 'isSender'>Sending request to {{whisper}} please wait...</p>
+		<p ng-show = 'ttt.isReceiver'>Play Request from {{player.sender}}</p>
+		<p ng-show = 'ttt.isSender'>Sending request to {{player.target}}, please wait...</p>
 	</div>
-	<div class="modal-footer">
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-success" ng-show = 'isReceiver' ng-click='gameAccept()'>Accept</button>
-			<button type="button" class="btn btn-danger" ng-click='gameDecline()' ng-show = 'game.isReceiver'>Decline</button>
+	<div class="modal-footer text-center">
+		<div class="btn-group game-request" role="group" aria-label="Basic example">
+			<button type="button" class="btn btn-success" ng-show = 'ttt.isReceiver' ng-click='gameAccept()'>Accept</button>
+			<button type="button" class="btn btn-danger" ng-click='gameDecline()' ng-show = 'ttt.isReceiver'>Decline</button>
 		</div>
 	</div>
 </div>
-<div class="dialog challengeAccept" role="dialog" ng-show='reqAccepted || reqDeclined'>
+<div class="dialog challengeAccept" role="dialog" ng-show='ttt.reqAccepted || ttt.reqDeclined'>
 	<div class="modal-body">
-		<div class="requestAccepted" ng-show='reqAccepted'>
-			<p ng-show = 'isSender'>{{whisper}} accepted your request. Now you move first!</p>
-			<p ng-show = 'isReceiver'>You accepted the request. Now {{sender}} move first!</p>
+		<div class="requestAccepted" ng-show='ttt.reqAccepted'>
+			<p ng-show = 'ttt.isSender'>{{player.target}} accepted your request. Now you move first!</p>
+			<p ng-show = 'ttt.isReceiver'>You accepted the request. Now {{player.sender}} move first!</p>
 		</div>
-		<div class="requestDeclined" ng-show='reqDeclined'>
-			<p ng-show = 'isSender'>{{whisper}} declined your request :(</p>
-			<p ng-show = 'isReceiver'>You declined the request from {{sender}} :(</p>
+		<div class="requestDeclined" ng-show='ttt.reqDeclined'>
+			<p ng-show = 'ttt.isSender'>{{player.target}} declined your request :(</p>
+			<p ng-show = 'ttt.isReceiver'>You declined the request from {{player.sender}} :(</p>
 		</div>
 	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-success" ng-show='reqAccepted' ng-click='reqAccepted = false'>Okay</button>
-		<button type="button" class="btn btn-success" ng-show='reqDeclined' ng-click='reqDeclined = false'>Alright!</button>
+	<div class="modal-footer text-center">
+		<button type="button" class="btn btn-success" ng-show='ttt.reqAccepted' ng-click='ttt.reqAccepted = false'>Okay</button>
+		<button type="button" class="btn btn-success" ng-show='ttt.reqDeclined' ng-click='ttt.reqDeclined = false'>Alright!</button>
 	</div>
 </div> 
