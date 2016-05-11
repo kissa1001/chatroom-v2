@@ -10,7 +10,3 @@ angular.module('chatroom')
   return new TicTacToe();
 });
 
-// angular.module('chatroom')
-// .factory('seabattle', function(){
-// 	return new SeaBattle();
-// })
