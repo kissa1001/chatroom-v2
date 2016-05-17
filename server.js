@@ -93,4 +93,4 @@ io.on('connection', function (socket) {
     io.sockets.emit('user:list', usermanager.getNames());
   });
 });
-server.listen(8080);
+server.listen(process.env.PORT || 8080);
