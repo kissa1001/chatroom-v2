@@ -9,6 +9,12 @@ html, body {
   background: -webkit-linear-gradient(270deg, #2EC4B6, #9EB1E9);
   background: linear-gradient(180deg, #2EC4B6, #9EB1E9);
   font-family: 'Raleway', sans-serif;
+  overflow-y: hidden;
+}
+body h2{
+  text-align: center;
+  border: 1px solid #fff;
+  padding: 5px 10px 5px 10px;
 }
 body h3, body h4{
   color:#fff;
@@ -29,6 +35,7 @@ color: #A4A4A4 !important;
 input:-ms-input-placeholder {  
 color: #A4A4A4 !important;  
 }
+
 /* Login page*/
 .login {
   padding: 15px;
@@ -71,6 +78,7 @@ color: #A4A4A4 !important;
   border: none;
 }
 /*Game Page*/
+
 .myUsername {
   font-size: 1.3em;
   padding-bottom:1em;
@@ -87,6 +95,11 @@ color: #A4A4A4 !important;
   text-align: center;
 }
 
+.chatbox__messages{
+  overflow-y: scroll;
+  max-height: 400px;
+  padding-bottom: 3em;
+}
 .chatbox {
   background: #FAFAFA;
   width: 600px;
@@ -95,8 +108,8 @@ color: #A4A4A4 !important;
   position: relative;
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
 }
-.chatbox__messages{
-  overflow-y: scroll;
+.chatbox-text{
+  color:#333;
 }
 .chatbox__messages__user-message {
   width: 380px;
@@ -209,14 +222,14 @@ color: #A4A4A4 !important;
   position:fixed;
   top:20%;
   left:60%;
-  width:300px;
-  height:200px;
-  background: #fff;
+  width: 400px;
+  background: #43d3c5;
 }
 .dialog p{
-  color:#000;
+  color:#fff;
   text-align: center;
-  font-size: 1.3em;
+  font-size: 1.2em;
+  line-height:1.5em;
 }
 body .modal-footer{
   text-align: center;
@@ -260,7 +273,9 @@ body .modal-footer{
   border-bottom: none;
 }
 .footer{
-  margin-top:4em;
+  margin-top:2em;
+  clear:both;
+  margin-bottom: 2em;
 }
 .footer p{
   color:#fff;
@@ -269,3 +284,14 @@ body .modal-footer{
   color:#43d3c5;
 }
 
+.animate-show {
+  opacity: 1;
+}
+
+.animate-show.ng-hide-add{
+  transition: all linear 5s;
+}
+
+.animate-show.ng-hide {
+  opacity: 0;
+}

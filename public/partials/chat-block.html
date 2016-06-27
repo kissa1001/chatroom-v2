@@ -1,15 +1,15 @@
 <div class="chatBlock">
+  <h3 class="chatbox-text">Chatbox</h3>
   <div class="chatbox__messages">
     <div class="chatbox__messages__user-message" ng-repeat='message in messages'>
       <div class="chatbox__messages__user-message--ind-message" ng-class='{whisper: message.whisper}'>
         <p class="name">{{message.sender}}:<span class="message"> {{message.msg}}</span><br>
-        <span class="time"> <em>{{message.time}}</em></span>
+          <span class="time"> <em>{{message.time}}</em></span>
         </p>
       </div>
     </div>
   </div>
-
-  <form class='chatInput' ng-submit='sendMsg($event)'>
-    <input type="text" ng-model='message' placeholder="Enter your message">
-  </form>
+    <form class='chatInput' ng-submit='sendMsg($event)'>
+      <input type="text" ng-model='message' placeholder="Enter your message">
+    </form>
 </div>

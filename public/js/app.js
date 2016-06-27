@@ -1,4 +1,4 @@
-angular.module('chatroom', ['btford.socket-io']);
+angular.module('chatroom', ['btford.socket-io','ngAnimate']);
 
 angular.module('chatroom')
 .factory('socket', function (socketFactory) {

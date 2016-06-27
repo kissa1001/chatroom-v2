@@ -26,3 +26,18 @@
 		<button type="button" class="btn btn-success" ng-show='ttt.reqDeclined' ng-click='ttt.reqDeclined = false'>Alright!</button>
 	</div>
 </div> 
+
+<div class="dialog instructions" id="myModal" role="dialog" ng-show='userService.user.loggedIn && !hideModal'>
+	<div class="modal-body">
+		<p>Welcome {{userService.user.name}}! Here is some tips about how to test out this app: <br>
+			1) Open another tab and login under another nickname( if nobody is online) <br>
+			2) To have private messaging with the person you want, just click on his/her nickname and choose "Start Messaging" <br>
+			3) To play tic-tac-toe, click on person's nickname and choose "Invite to play"
+		</p>
+	</div>
+	<div class="modal-footer text-center">
+		<div class="btn-group game-request" role="group" aria-label="Basic example">
+			<button type="button" class="btn btn-success" ng-click = "hideModal=true">Gotcha!</button>
+		</div>
+	</div>
+</div>

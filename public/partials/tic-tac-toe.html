@@ -1,4 +1,4 @@
- <div>
+ <div class= "animate-show"  ng-show='ttt.showBoard' ng-hide="!ttt.showBoard">
   <table class="board">
     <tbody>
       <tr ng-repeat="row in tictactoe.board track by $index">
@@ -8,4 +8,7 @@
       </tr>
     </tbody>
   </table>
+
+	<h2 ng-show="ttt.winner">Winner is {{ttt.winner}}!</h2>
+  	<h2 ng-show="ttt.tie"> Result is tie! </h2>
 </div>

@@ -25,26 +25,25 @@ angular.module('chatroom')
     tttService.ttt.isReceiver = true;
     tttService.player.sender = data.sender;
     tttService.player.target = data.target;
-    console.log('request sent from ' + data.sender);
   });
 
   this.sendPlayers = function(sender,target){
     tttService.ttt.requesting = false;
     tttService.ttt.reqAccepted = true;
     tttService.ttt.showBoard = true;
-      socket.emit('game:players', {
-        players: {
-          player1 : {
-            name: sender,
-            sign: 'X'
-          },
-          player2 : {
-            name: target,
-            sign: 'O'
-          }
+    socket.emit('game:players', {
+      players: {
+        player1 : {
+          name: sender,
+          sign: 'X'
+        },
+        player2 : {
+          name: target,
+          sign: 'O'
         }
-      })
-      socket.emit('game:accept', {sender:sender, receiver: target});
+      }
+    })
+    socket.emit('game:accept', {sender:sender, receiver: target});
   }
 
   socket.on ('game:players', function(data){
@@ -67,12 +66,10 @@ angular.module('chatroom')
     tttService.ttt.requesting = false;
     tttService.ttt.reqAccepted = true;
     tttService.ttt.showBoard = true;
-    console.log(data.receiver + ' accepted your challenge. Now you move first!');
   })
   socket.on('game:decline', function(data){
     tttService.ttt.requesting = false;
     tttService.ttt.reqDeclined = true;
-    console.log(data.receiver + ' declined your challenge :(');
   })
 
   this.player1Move = function(X,Y,player1){
@@ -95,19 +92,23 @@ angular.module('chatroom')
 
   this.winnerCheck = function(data){
     data = tictactoe;
-      if(data.winner() !== undefined){
-        if(data.winner() == data.players[0].name){
-          alert(data.players[0].name + ' won!');
-        }
-        else{
-          alert(data.players[1].name + ' won!');
-        }
-        tictactoe.board = [
-          [null, null, null],
-          [null, null, null],
-          [null, null, null]
-        ];
+    var board = tictactoe.board;
+    if(data.winner() !== undefined){
+      if(data.winner() == data.players[0].name){
+        //document.getElementById('winner').innerHTML += 'The winner is ' + data.players[0].name;
+        tttService.ttt.winner = data.players[1].name;
       }
+      else{
+        //document.getElementById('winner').innerHTML += 'The winner is ' + data.players[1].name;
+        tttService.ttt.winner = data.players[1].name;
+      }
+        tttService.ttt.showBoard = false;
+    }
+    else if(!board[0].includes(null) && !board[1].includes(null) && !board[2].includes(null)){
+      document.getElementById('winner').innerHTML += 'You both played really good. The result is tie';
+      tttService.ttt.tie = true;
+        tttService.ttt.showBoard = false;
+    }
   }
   socket.on('game:move', function(data){
     tictactoe.move(data.player, data.posX, data.posY);

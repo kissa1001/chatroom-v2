@@ -6,7 +6,6 @@ angular.module('chatroom')
   }
   var service=this;
   socket.on('user:list', function(data){
-    console.log(data);
     service.users = data;
   })
   this.whisper = false;
