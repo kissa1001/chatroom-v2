@@ -97,7 +97,7 @@ color: #A4A4A4 !important;
 
 .chatbox__messages{
   overflow-y: scroll;
-  max-height: 400px;
+  max-height: 350px;
   padding-bottom: 3em;
 }
 .chatbox {

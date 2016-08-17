@@ -1,6 +1,6 @@
 <div class="chatBlock">
   <h3 class="chatbox-text">Chatbox</h3>
-  <div class="chatbox__messages">
+  <div class="chatbox__messages" id="chatbox-msgs">
     <div class="chatbox__messages__user-message" ng-repeat='message in messages'>
       <div class="chatbox__messages__user-message--ind-message" ng-class='{whisper: message.whisper}'>
         <p class="name">{{message.sender}}:<span class="message"> {{message.msg}}</span><br>
